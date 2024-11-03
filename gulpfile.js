@@ -23,7 +23,7 @@ const del = require("del");
 
 const img = () => {
   return gulp
-    .src(srcPath.images.src + "**/*.{png,apng,jpg,gif,svg,ico}")
+    .src(srcPath.images.src + "**/*.{png,jpg,gif,svg,ico}")
     .pipe(
       plumber({
         errorHandler: (err) => {
