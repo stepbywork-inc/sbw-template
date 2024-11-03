@@ -1,0 +1,50 @@
+.c-inner {
+	max-width: 1080px;
+	width: calc(100% - 40px);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media screen and (min-width: 1025px) {
+	.c-tab {
+		display: none !important;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.c-tab_none {
+		display: none !important;
+	}
+}
+
+@media screen and (min-width: 769px) {
+	.c-sp {
+		display: none !important;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.c-pc {
+		display: none !important;
+	}
+}
+
+.c-ofi {
+	object-fit: cover;
+	font-family: "object-fit: cover;, object-position: center;";
+	width: 100%;
+	height: 100%;
+	object-position: center;
+}
+
+.c-center {
+	text-align: center;
+}
+
+.c-left {
+	text-align: left;
+}
+
+.c-right {
+	text-align: right;
+}

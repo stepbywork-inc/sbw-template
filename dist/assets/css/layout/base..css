@@ -1,0 +1,120 @@
+* {
+	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
+
+	&:before,
+	&:after {
+		box-sizing: border-box;
+	}
+
+	&:focus-visible {
+		outline: 2px solid gray;
+		outline-offset: 2px;
+	}
+}
+
+html {
+	font-size: 10px;
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	scroll-behavior: smooth;
+	scroll-padding-top: 50px;
+
+	@media screen and (max-width: 768px) {
+		scroll-padding-top: 50px;
+	}
+}
+
+body {
+	font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "游ゴシック体",
+		YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", "Meiryo", sans-serif;
+	font-size: 1.6rem;
+	line-height: 1;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	color: #000;
+	min-width: 1080px;
+	@media screen and (max-width: 768px) {
+		min-width: auto;
+	}
+}
+
+a,
+button {
+	text-decoration: none;
+	color: #000;
+	outline: none;
+
+	@media (any-hover: hover) {
+		transition: 0.3s ease;
+
+		&:hover {
+			opacity: 0.7;
+		}
+
+		path,
+		img,
+		p {
+			transition: 0.3s ease;
+		}
+	}
+}
+
+img,
+svg,
+video {
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+	display: inline-block;
+	image-rendering: -webkit-optimize-contrast;
+}
+
+table {
+	border-collapse: collapse;
+	max-width: 100%;
+	width: 100%;
+
+	th,
+	td {
+		vertical-align: top;
+	}
+}
+
+input::-ms-clear {
+	display: none;
+}
+
+ul,
+ol {
+	list-style-position: inside;
+	list-style: none;
+}
+
+input,
+button,
+textarea,
+select {
+	font-family: inherit;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+button {
+	&:focus {
+		outline: none;
+	}
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+}
+
+p {
+}
