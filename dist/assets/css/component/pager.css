@@ -1,0 +1,61 @@
+.c_pager {
+  margin-top: 50px;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 30px;
+  }
+
+  .wp-pagenavi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    gap: 10px;
+
+    a,
+    span {
+      /* border: 1px solid rgba(255, 255, 255, 0.6); */
+      /* border-radius: 4px; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+    }
+
+    a {
+      @media (any-hover: hover) {
+        &:hover {
+          opacity: 1;
+          color: white;
+        }
+      }
+    }
+
+    .pages {
+
+      /* border: 1px solid rgba(255, 255, 255, 0.6); */
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    .page,
+    .current {}
+
+    .current {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .nextpostslink,
+    .previouspostslink {}
+
+    .first,
+    .last {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+}

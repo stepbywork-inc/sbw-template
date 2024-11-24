@@ -1,0 +1,11 @@
+.l_main {
+  transition: filter .3s ease;
+}
+
+body {
+  &.is_gnavopen {
+    .l_main {
+      filter: blur(4px);
+    }
+  }
+}

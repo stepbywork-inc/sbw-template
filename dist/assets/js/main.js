@@ -12,6 +12,7 @@ window.addEventListener('load', function () {
 })
 window.addEventListener('scroll', function () {
 });
+
 function pagetop() {
   $('.js-pagetop').hide();
   $(window).on('scroll', function () {

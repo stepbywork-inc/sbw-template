@@ -1,12 +1,33 @@
 @import url(foundation/reset.css);
 
-@import url(layout/base..css);
+@import url(layout/base.css);
 @import url(layout/header.css);
 @import url(layout/footer.css);
+@import url(layout/main.css);
 
 @import url(component/util.css);
 @import url(component/btn.css);
 @import url(component/title.css);
 @import url(component/pankuzu.css);
+@import url(component/wysywig.css);
+@import url(component/card.css);
+@import url(component/pager.css);
 
 @import url(project/top.css);
+
+:root {
+  --hdr_height: 80px;
+
+  @media screen and (max-width: 768px) {
+    --hdr_height: 60px;
+
+  }
+
+  --blue1:#171C61;
+  --blue2:#111549;
+  --water1:#21678C;
+  --water2:#f7fbfd;
+  --gray1:rgb(255, 255, 255, .9);
+  --gray2:rgb(255, 255, 255, .8);
+  --gray3:rgb(255, 255, 255, .6);
+}
