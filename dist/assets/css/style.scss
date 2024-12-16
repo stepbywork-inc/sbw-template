@@ -1,0 +1,24 @@
+@use "foundation/_reset.scss";
+
+@use "layout/_base.scss";
+@use "layout/_header.scss";
+@use "layout/_footer.scss";
+@use "layout/_main.scss";
+
+@use "component/_util.scss";
+@use "component/_btn.scss";
+@use "component/_title.scss";
+@use "component/_pankuzu.scss";
+@use "component/_wysywig.scss";
+@use "component/_card.scss";
+@use "component/_pager.scss";
+
+@use "project/_top.scss";
+
+:root {
+  --hdr_height: 80px;
+
+  @media screen and (max-width: 768px) {
+    --hdr_height: 60px;
+  }
+}

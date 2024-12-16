@@ -1,33 +1,2222 @@
-@import url(foundation/reset.css);
+@charset "UTF-8";
+/*! TAK's Custom Base.css v1.3.4 | MIT License | github.com/tak-dcxi/taks-custom-base-css */
+/* ======================================================
+//
+// MARK: # TAK's Custom Base.css
+// Made by TAK - https: //www.tak-dcxi.com/
+// This CSS is built based on Normalize.css. (https: //necolas.github.io/normalize.css/)
+// It aims to normalize styles for better cross-browser compatibility, remove default browser styling, and enhance usability and accessibility for all users."
+//
+// ====================================================== */
+/* ======================================================
+// MARK: ## Universal
+// ------------------------------------------------------ */
+*,
+::before,
+::after {
+  /* Ensure padding and borders are included within the dimensions of the element. */
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  /* Prevent inline elements from extending beyond their container's bounds. */
+  min-inline-size: 0;
+  /* Remove any default borders. */
+  border-width: 0;
+  /* Set a default border style of solid for easy border additions. */
+  border-style: solid;
+}
 
-@import url(layout/base.css);
-@import url(layout/header.css);
-@import url(layout/footer.css);
-@import url(layout/main.css);
+/* ======================================================
+// MARK: ## Document and Body Elements
+// ------------------------------------------------------ */
+:where(:root, body) {
+  /* Prevent scrolling along the inline axis (usually horizontal) for root and body. */
+  overflow-inline: clip;
+}
+@supports not (overflow-inline: clip) {
+  :where(:root, body) {
+    /* Prevent horizontal scrolling for root and body in browsers that don't support `overflow-inline`. */
+    overflow-x: clip;
+  }
+}
 
-@import url(component/util.css);
-@import url(component/btn.css);
-@import url(component/title.css);
-@import url(component/pankuzu.css);
-@import url(component/wysywig.css);
-@import url(component/card.css);
-@import url(component/pager.css);
+:where(:root) {
+  /* Specify a safe font-family for the default Gothic typeface. */
+  font-family: "Helvetica Neue", arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", meiryo, sans-serif;
+  /* Normalize font-style. */
+  font-style: unset;
+  /* Normalize font-style. */
+  font-weight: 400;
+  /* From an accessibility perspective, the line spacing within a paragraph should be at least 1.5 times the text size. (https://waic.jp/translations/WCAG21/#visual-presentation) */
+  line-height: 1.5;
+  /* Align text to the start of the element, accommodating left-to-right and right-to-left languages. */
+  text-align: start;
+  /* Remove leading white space for a cleaner text alignment. */
+  text-spacing-trim: trim-start;
+  /* Use the browser's default method to determine word breaking. */
+  word-break: initial;
+  /* Apply strict line breaking rules to enhance readability in languages that require it. */
+  line-break: strict;
+  /* Allow long words to be broken and wrapped at any point to prevent overflow. */
+  overflow-wrap: anywhere;
+  /* Automatically insert hyphens where appropriate for better text flow and alignment. */
+  -ms-hyphens: auto;
+      hyphens: auto;
+  /* Prevent mobile browsers from scaling text sizes automatically. */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+   -ms-text-size-adjust: 100%;
+       text-size-adjust: 100%;
+  /* Preventing the layout shift caused by scrollbars. */
+  scrollbar-gutter: stable;
+  /* Allow animations and transitions of intrinsic sizing keywords. */
+  interpolate-size: allow-keywords;
+  /* Eliminate the tap highlight color on mobile devices for a cleaner interface. */
+  -webkit-tap-highlight-color: transparent;
+}
+:where(:root):has(:where(:modal)) {
+  /* Prevent scrolling of the document when a modal is open. */
+  overflow: hidden;
+}
 
-@import url(project/top.css);
+:where(body) {
+  /* Ensures the body element occupies at least 100% of the viewport's block size. */
+  min-block-size: 100svb;
+  /* Reset default margin. */
+  margin: unset;
+}
 
+/* ======================================================
+// MARK: ## Custom Properties
+// ------------------------------------------------------ */
+/* ------------------------------------------------------
+// MARK: ### colors
+*/
+/*
+  Define a custom property to use as a background color that remains visible in forced colors mode.
+  This is useful when using `background-color: currentColor` as a foreground color,
+  such as in pseudo-elements.
+
+  Example usage:
+  ```
+  .button::after {
+    content: '';
+    justify-self: end;
+    mask-image: url(...);
+    inline-size: 1em;
+    aspect-ratio: 1;
+    background-color: var(--background-current);
+    color: red;
+  }
+*/
+@property --background-current {
+  syntax: "currentColor | CanvasText";
+  inherits: true;
+  initial-value: currentColor;
+}
+@media (forced-colors: active) {
+  :where(:root) {
+    /* Set the default background color to the forced color mode background. */
+    --background-current: CanvasText;
+  }
+}
+
+/* ------------------------------------------------------
+// MARK: ### easing function
+*/
+@property --ease-in-sine {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+@property --ease-out-sine {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+@property --ease-in-out-sine {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+@property --ease-in-quad {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+@property --ease-out-quad {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+@property --ease-in-out-quad {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+@property --ease-in-cubic {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+@property --ease-out-cubic {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+@property --ease-in-out-cubic {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+@property --ease-in-quart {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+}
+@property --ease-out-quart {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+@property --ease-in-out-quart {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.77, 0, 0.175, 1);
+}
+@property --ease-in-quint {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+}
+@property --ease-out-quint {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@property --ease-in-out-quint {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.86, 0, 0.07, 1);
+}
+@property --ease-in-expo {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+}
+@property --ease-out-expo {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.19, 1, 0.22, 1);
+}
+@property --ease-in-out-expo {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(1, 0, 0, 1);
+}
+@property --ease-in-circ {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+@property --ease-out-circ {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@property --ease-in-out-circ {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+@property --ease-in-back {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+@property --ease-out-back {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@property --ease-in-out-back {
+  syntax: "*";
+  inherits: false;
+  initial-value: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+/* ------------------------------------------------------
+// MARK: ### triangle shapes
+*/
+/*
+Example usage:
+```
+.tooltip::after {
+  --_size: 16px;
+
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  clip-path: var(--shape-triangle-bottom);
+  inline-size: var(--_size);
+  block-size: calc(var(--_size) / 2 * tan(60deg));
+  margin-inline: auto;
+  background-color: inherit;
+}
+```
+*/
+@property --shape-triangle-top {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(50% 0, 100% 100%, 0 100%);
+}
+@property --shape-triangle-bottom {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 0, 100% 0, 50% 100%);
+}
+@property --shape-triangle-right {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 0, 100% 50%, 0 100%);
+}
+@property --shape-triangle-left {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 50%, 100% 0, 100% 100%);
+}
+@property --shape-triangle-lower-left {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 0, 100% 100%, 0 100%);
+}
+@property --shape-triangle-upper-left {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 0, 100% 0, 0 100%);
+}
+@property --shape-triangle-lower-right {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(100% 0, 100% 100%, 0 100%);
+}
+@property --shape-triangle-upper-right {
+  syntax: "*";
+  inherits: false;
+  initial-value: polygon(0 0, 100% 0, 100% 100%);
+}
+/* ------------------------------------------------------
+// MARK: ### chevron icons
+*/
+/*
+The chevron icon is borrowed from Basicons (https://basicons.xyz/).
+
+Example usage:
+```
+.button::after {
+  content: '';
+  justify-self: end;
+  mask-image: var(--icon-chevron-right);
+  inline-size: 1em;
+  aspect-ratio: 1;
+  background-color: var(--background-current);
+}
+```
+*/
+/* single chevron icons */
+@property --icon-chevron-up {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4 16 8-8 8 8" /></svg>');
+}
+@property --icon-chevron-right {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4L16 12L8 20" /></svg>');
+}
+@property --icon-chevron-down {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8L12 16L20 8" /></svg>');
+}
+@property --icon-chevron-left {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4L8 12L16 20" /></svg>');
+}
+/* double chevron icons */
+@property --icon-chevrons-up {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18L12 13L7 18M17 11L12 6L7 11" /></svg>');
+}
+@property --icon-chevrons-right {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7L11 12L6 17M13 7L18 12L13 17" /></svg>');
+}
+@property --icon-chevrons-down {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6L12 11L7 6M17 13L12 18L7 13" /></svg>');
+}
+@property --icon-chevrons-left {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7L13 12L18 17M11 7L6 12L11 17" /></svg>');
+}
+/* ------------------------------------------------------
+// MARK: ### launch link icon
+*/
+/*
+The chevron icon is borrowed from Basicons (https://basicons.xyz/).
+
+Example usage:
+```
+.button[target="_blank"]::after {
+  content: '' / '別ウインドウで開きます';
+  justify-self: end;
+  mask-image: var(--icon-launch-link);
+  inline-size: 1em;
+  aspect-ratio: 1;
+  background-color: var(--background-current);
+}
+```
+*/
+@property --icon-launch-link {
+  syntax: "<url>";
+  inherits: false;
+  initial-value: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2H22V7" /><path d="M21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H11" /><path d="M13 11L21.5 2.5" /></svg>');
+}
+/* ------------------------------------------------------
+// MARK: ### leading trim
+*/
+/*
+You can use the `--leading-trim` custom property to adjust the vertical spacing of text elements.
+This helps in achieving more consistent and visually pleasing typography across different languages and font styles.
+
+@see https://www.tak-dcxi.com/article/use-line-height-trim-as-css-variable
+
+Example usage:
+```
+p {
+  margin-block: var(--leading-trim);
+}
+
+.button {
+  padding-block: calc(1.5em + var(--leading-trim));
+}
+```
+*/
+@property --leading-trim {
+  syntax: "*";
+  inherits: false;
+  initial-value: calc((1em - 1lh) / 2);
+}
+:where(:lang(en)) {
+  /* This ensures that the vertical space is evenly distributed, improving the visual balance of text. */
+  --leading-trim: calc((1cap - 1lh) / 2);
+}
+
+/* ------------------------------------------------------
+// MARK: ### hover state
+*/
+/*
+You can use these custom properties to easily switch between hover and non-hover styles.
+The var() function will use the first non-empty value, allowing you to define both states in one line.
+
+Example usage:
+```
+.button {
+  --_background-lighten: var(--is-hover-false, 0%) var(--is-hover-true, 20%);
+
+  background-color: color-mix(in sRGB, var(--background-button), #fff var(--_background-lighten));
+}
+```
+*/
+:where(:-moz-any-link, :enabled, summary) {
+  /* Define custom properties for hover state on interactive elements. Default state: `--is-hover-true` is empty, `--is-hover-false` has a value. */
+  --is-hover-true: ;
+  --is-hover-false: initial;
+}
+:where(:any-link, :enabled, summary) {
+  /* Define custom properties for hover state on interactive elements. Default state: `--is-hover-true` is empty, `--is-hover-false` has a value. */
+  --is-hover-true: ;
+  --is-hover-false: initial;
+}
+@media (any-hover: hover) {
+  :where(:-moz-any-link, :enabled, summary):where(:hover) {
+    /* Set hover state for actual hover, but only on devices that support hover. Hover state: `--is-hover-true` has a value, `--is-hover-false` is empty. */
+    --is-hover-true: initial;
+    --is-hover-false: ;
+  }
+  :where(:any-link, :enabled, summary):where(:hover) {
+    /* Set hover state for actual hover, but only on devices that support hover. Hover state: `--is-hover-true` has a value, `--is-hover-false` is empty. */
+    --is-hover-true: initial;
+    --is-hover-false: ;
+  }
+}
+:where(:-moz-any-link, :enabled, summary):where(:focus-visible) {
+  /* Set hover state for focus-visible state. Focus-visible state: `--is-hover-true` has a value, `--is-hover-false` is empty. */
+  --is-hover-true: initial;
+  --is-hover-false: ;
+}
+:where(:any-link, :enabled, summary):where(:focus-visible) {
+  /* Set hover state for focus-visible state. Focus-visible state: `--is-hover-true` has a value, `--is-hover-false` is empty. */
+  --is-hover-true: initial;
+  --is-hover-false: ;
+}
+
+/* ======================================================
+// MARK: ## Sections
+// ------------------------------------------------------ */
+:where(h1, h2, h3, h4, h5, h6) {
+  /* Reset default margin. */
+  margin-block: unset;
+  /* Reset default font-size. */
+  font-size: unset;
+}
+
+:where(search) {
+  /* Render the `search` element consistently. */
+  display: block flow;
+}
+
+/* ======================================================
+// MARK: ## Grouping content
+// ------------------------------------------------------ */
+:where(p, blockquote, figure, pre, address, ul, ol, dl) {
+  /* Reset default margin-block. */
+  margin-block: unset;
+}
+
+:where(blockquote, figure) {
+  /* Reset default margin-inline. */
+  margin-inline: unset;
+}
+
+:where(address):where(:lang(ja)) {
+  /* Reset font style for specific Japanese language elements. */
+  font-style: unset;
+}
+
+:where(ul, ol) {
+  /* Remove default padding-inline-start. */
+  -webkit-padding-start: unset;
+          padding-inline-start: unset;
+  /* In Safari, using 'list-style: none' causes the list not to be announced by screen readers, so use 'list-style-type: ""' to hide markers without affecting accessibility. */
+  list-style-type: "";
+}
+
+:where(dt) {
+  /* Make definition terms bolder. */
+  font-weight: 700;
+}
+
+:where(dd) {
+  /* Remove default indentation. */
+  -webkit-margin-start: unset;
+          margin-inline-start: unset;
+}
+
+:where(hr) {
+  /* Sets the thickness of the top border of the <hr> element to 1px. */
+  border-block-start-width: 1px;
+}
+
+:where(pre) {
+  /* Sets the tab character width to 2 spaces for better readability in preformatted text. */
+  -moz-tab-size: 2;
+    -o-tab-size: 2;
+       tab-size: 2;
+}
+@media print {
+  :where(pre) {
+    /* Allow text within <pre> elements to wrap when printing. */
+    white-space: pre-wrap;
+  }
+}
+
+/* ======================================================
+// MARK: ## Text-level semantics
+// ------------------------------------------------------ */
+:where(b, strong) {
+  /* Enhance the weight of bold elements for emphasis. */
+  font-weight: 700;
+}
+
+:where(em):where(:lang(ja)) {
+  /* Enhance the weight of bold elements for emphasis. */
+  font-weight: 700;
+}
+
+:where(i, cite, em, dfn, var):where(:lang(ja)) {
+  /* Reset font style for specific Japanese language elements. */
+  font-style: unset;
+}
+
+:where(small) {
+  /* Set the font size to 1em (same as the parent element). */
+  font-size: 1em;
+  /* Set the font weight to 400. */
+  font-weight: 400;
+}
+
+:where(code, kbd, samp) {
+  /* Set the monospace font using Tailwind as a reference(@see https://tailwindcss.com/docs/font-family). Specifying 'serif' is a countermeasure for Chrome's 13px issue. */
+  font-family: ui-monospace, sfmono-regular, menlo, monaco, consolas, "Liberation Mono", "Courier New", serif;
+  /* Reset font size to ensure consistent appearance across different devices. */
+  font-size: unset;
+}
+
+:where(cite, dfn) {
+  --_quotation-start: "“";
+  --_quotation-end: "”";
+}
+:where(cite, dfn)::before {
+  /* Inserts an opening quotation mark before the content of <cite> and <dfn> elements, defaulting to a double quote unless overridden. */
+  content: var(--_quotation-start);
+}
+:where(cite, dfn)::after {
+  /* Inserts a closing quotation mark after the content of <cite> and <dfn> elements, defaulting to a double quote unless overridden. */
+  content: var(--_quotation-end);
+}
+:where(cite, dfn):where(:lang(ja)) {
+  /* Overrides the default opening quotation mark with the Japanese opening quote for <cite> and <dfn> elements in Japanese. */
+  --_quotation-start: "「";
+  --_quotation-end: "」";
+}
+
+:where(var) {
+  /* Sets the font family to serif for <var> elements, enhancing the typographic distinction of variable names in technical content. */
+  font-family: serif;
+}
+:where(var):where(:lang(ja)) {
+  /* Resets the font family for <var> elements in Japanese content. */
+  font-family: unset;
+}
+
+@media (forced-colors: none) {
+  :where(mark) {
+    /* Remove any default background colors. */
+    background-color: unset;
+    /* Reset text color to default or inherited value. */
+    color: unset;
+    /* Applies an underline to the text to highlight it. */
+    text-decoration-line: underline;
+    /* Sets the color of the underline using a mix of the 'Mark' color and transparency. */
+    text-decoration-color: oklch(from #ff0 l c h/50%);
+    /* Specifies the thickness of the underline. */
+    text-decoration-thickness: 0.4em;
+    /* Adjusts the position of the underline closer to the text. */
+    text-underline-offset: -0.2em;
+    /* Ensures the underline is not broken by descenders in characters like g, j, p, q, and y. */
+    -webkit-text-decoration-skip-ink: none;
+            text-decoration-skip-ink: none;
+  }
+}
+
+/* ======================================================
+// MARK: ## Links
+// ------------------------------------------------------ */
+:where(:-moz-any-link) {
+  /* Remove any default background colors. */
+  background-color: unset;
+  /* Reset text color to default or inherited value. */
+  color: unset;
+  /* Remove underline from links. */
+  text-decoration-line: none;
+  /* Set the thickness of the text decoration based on the font metrics. */
+  text-decoration-thickness: from-font;
+  /* Position the underline slightly away from the text for enhanced legibility. */
+  text-underline-offset: 0.25em;
+  /* Adjust underline to skip over descenders for better readability. */
+  text-decoration-skip-ink: auto;
+}
+:where(:any-link) {
+  /* Remove any default background colors. */
+  background-color: unset;
+  /* Reset text color to default or inherited value. */
+  color: unset;
+  /* Remove underline from links. */
+  text-decoration-line: none;
+  /* Set the thickness of the text decoration based on the font metrics. */
+  text-decoration-thickness: from-font;
+  /* Position the underline slightly away from the text for enhanced legibility. */
+  text-underline-offset: 0.25em;
+  /* Adjust underline to skip over descenders for better readability. */
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+
+/* ======================================================
+// MARK: ## Edits
+// ------------------------------------------------------ */
+:where(ins):not(:where(.adsbygoogle)) {
+  /* Use a dashed line for underlining inserted content, making it distinctly visible. */
+  text-decoration-style: dashed;
+  /* Position the underline slightly away from the text for enhanced legibility. */
+  text-underline-offset: 0.4em;
+  /* Adjust underline to skip over descenders for better readability. */
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+
+:where(del) {
+  /* Apply a double line through the text for deleted content, enhancing visibility. */
+  text-decoration-style: double;
+}
+
+/* ======================================================
+// MARK: ## Embedded content
+// ------------------------------------------------------ */
+:where(img, picture, svg, video, canvas, audio, iframe, embed, object) {
+  /* Set elements to display as block-level flow containers, suitable for complex layouts. */
+  display: inline-block flow;
+  /* Limits the maximum size inline to prevent overflow. */
+  max-inline-size: 100%;
+  /* Automatically adjusts the block size based on content. */
+  block-size: auto;
+}
+
+/* ======================================================
+// MARK: ## Tabular data
+// ------------------------------------------------------ */
+:where(table) {
+  /* Collapses border for a more compact table design. */
+  border-collapse: collapse;
+}
+
+:where(caption) {
+  /* Aligns the caption text to the start of the element. */
+  text-align: start;
+}
+
+:where(td, th) {
+  /* Removes default padding from table cells and headers. */
+  padding: unset;
+  /* Aligns content of table cells to the top. */
+  vertical-align: top;
+}
+
+:where(th) {
+  /* Makes table header text bold. */
+  font-weight: 700;
+  /* Aligns header text to the start of the cell. */
+  text-align: start;
+}
+
+/* ======================================================
+// MARK: ## Forms
+// ------------------------------------------------------ */
+::-webkit-file-upload-button {
+  /* Remove default padding. */
+  padding: unset;
+  /* Apply a transparent border for forced colors mode. */
+  border: 1px solid transparent;
+  /* Resets border-radius to default. */
+  border-radius: unset;
+  /* Removes default background color. */
+  background-color: unset;
+  /* Removes default text color. */
+  color: unset;
+  /* Resets font settings to inherit from parent. */
+  font: unset;
+  /* Centers the element vertically within its line box. */
+  vertical-align: middle;
+  /* Resets letter-spacing to default. */
+  letter-spacing: unset;
+  /* Resets text alignment to default. */
+  text-align: unset;
+  /* Resets text transformation to default. */
+  text-transform: unset;
+}
+:where(button, input, select, textarea),
+::file-selector-button {
+  /* Remove default padding. */
+  padding: unset;
+  /* Apply a transparent border for forced colors mode. */
+  border: 1px solid transparent;
+  /* Resets border-radius to default. */
+  border-radius: unset;
+  /* Removes default background color. */
+  background-color: unset;
+  /* Removes default text color. */
+  color: unset;
+  /* Resets font settings to inherit from parent. */
+  font: unset;
+  /* Centers the element vertically within its line box. */
+  vertical-align: middle;
+  /* Resets letter-spacing to default. */
+  letter-spacing: unset;
+  /* Resets text alignment to default. */
+  text-align: unset;
+  /* Resets text transformation to default. */
+  text-transform: unset;
+}
+
+:where([type=radio i], [type=checkbox i]) {
+  /* Remove default margin. */
+  margin: unset;
+}
+
+:where([type=file i]) {
+  /* Default cursor for file input fields. */
+  cursor: unset;
+}
+
+:where(textarea) {
+  /* Remove default margin in Firefox. */
+  margin-block: unset;
+  /* Allows resizing of textarea vertically only. */
+  resize: block;
+}
+
+::-webkit-file-upload-button {
+  /* Set the inline-size of the button to match the content's inline-size exactly. */
+  inline-size: -webkit-fit-content;
+  inline-size: fit-content;
+  /* Optimizes touch interaction for buttons. */
+  touch-action: manipulation;
+}
+
+:where(button),
+::file-selector-button {
+  /* Set the inline-size of the button to match the content's inline-size exactly. */
+  inline-size: -webkit-fit-content;
+  inline-size: -moz-fit-content;
+  inline-size: fit-content;
+  /* Optimizes touch interaction for buttons. */
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+}
+
+:where(button)::-moz-focus-inner {
+  /* Remove the inner padding in Firefox. */
+  padding: unset;
+}
+
+::-webkit-file-upload-button {
+  /* Indicate clickable elements with a pointer cursor. */
+  cursor: pointer;
+}
+
+:where(button, label[for], select, [role=tab], [role=button], [role=option]),
+::file-selector-button {
+  /* Indicate clickable elements with a pointer cursor. */
+  cursor: pointer;
+}
+
+:where(select):where(:disabled) {
+  /* Keep the opacity of disabled selects consistent with other disabled elements. */
+  opacity: inherit;
+}
+
+:where(fieldset) {
+  /* Remove default margin-inline. */
+  margin-inline: unset;
+  /* Remove default padding. */
+  padding: unset;
+}
+
+:where(legend) {
+  /* Remove default padding-inline. */
+  padding-inline: unset;
+}
+
+:where(optgroup) {
+  /* Resets font settings to inherit from parent. */
+  font: unset;
+}
+
+::-webkit-input-placeholder {
+  /* Normalize the opacity of placeholder text to fully opaque in Firefox, where it might be set to less by default. */
+  opacity: unset;
+}
+
+::-moz-placeholder {
+  /* Normalize the opacity of placeholder text to fully opaque in Firefox, where it might be set to less by default. */
+  opacity: unset;
+}
+
+:-ms-input-placeholder {
+  /* Normalize the opacity of placeholder text to fully opaque in Firefox, where it might be set to less by default. */
+  opacity: unset;
+}
+
+::-ms-input-placeholder {
+  /* Normalize the opacity of placeholder text to fully opaque in Firefox, where it might be set to less by default. */
+  opacity: unset;
+}
+
+::placeholder {
+  /* Normalize the opacity of placeholder text to fully opaque in Firefox, where it might be set to less by default. */
+  opacity: unset;
+}
+
+::picker(select) {
+  /* Render the `: :picker(select)` pseudo element consistently. */
+  display: block flow;
+  /* Remove default padding. */
+  padding: unset;
+}
+
+/* ======================================================
+// MARK: ## Interactive elements
+// ------------------------------------------------------ */
+:where(summary) {
+  /* Eliminate the default marker from details summary for a cleaner disclosure widget. */
+  display: block flow;
+  /* Indicate clickable elements with a pointer cursor. */
+  cursor: pointer;
+}
+
+::-webkit-details-marker {
+  /* Hide the default disclosure marker to allow for custom styling. */
+  display: none;
+}
+
+:where(dialog, [popover]) {
+  /* Resets overflow property. */
+  overflow: unset;
+  /* Resets the inline size property. */
+  inline-size: unset;
+  /* Resets the block size property. */
+  block-size: unset;
+  /* Resets the max inline size limit. */
+  max-inline-size: unset;
+  /* Resets the max block size limit. */
+  max-block-size: unset;
+  /* Removes default padding. */
+  padding: unset;
+  /* Removes default background color. */
+  background-color: unset;
+  /* Resets color to default. */
+  color: unset;
+}
+
+:where(dialog:not([open], [popover]), [popover]:not(:popover-open)) {
+  /* Hide the dialog element and popover element when it is not open. */
+  display: none !important;
+}
+
+::-ms-backdrop {
+  /* Remove default backdrop color for a clearer view of the underlying content. */
+  background-color: unset;
+}
+
+::backdrop {
+  /* Remove default backdrop color for a clearer view of the underlying content. */
+  background-color: unset;
+}
+
+/* ======================================================
+// MARK: ## Focus styles
+// ------------------------------------------------------ */
+:where(:-moz-focusring) {
+  /* Improve outlines for Firefox and unify style with input elements and buttons. */
+  outline: auto;
+}
+
+:where(:focus-visible) {
+  /* Slightly offset focus outline for better visibility without overlapping text. */
+  outline-offset: 2px;
+}
+
+:where(:focus):not(:where(:focus-visible)) {
+  /* Hide focus outline unless element is explicitly focus-visible to reduce visual clutter. */
+  outline: none;
+}
+
+[tabindex="-1"]:focus-visible {
+  /* Ensure that programmatically focused elements do not show an outline unless they are naturally focusable. */
+  outline: none !important;
+}
+
+/* ======================================================
+// MARK: ## Misc
+// ------------------------------------------------------ */
+:where(:disabled, [aria-disabled=true]) {
+  /* Show default cursor for disabled elements to reflect their non-interactive state. */
+  cursor: default;
+}
+
+[hidden]:not([hidden=until-found]) {
+  /* Ensure elements intended to be hidden are not displayed, enhancing clarity and layout control. */
+  display: none !important;
+}
+
+/* ======================================================
+// MARK: ## Reduced Motion
+// ------------------------------------------------------ */
+/* Target all elements that don't have the 'data-safe-animation' attribute. */
+@media (prefers-reduced-motion: reduce) {
+  :not([data-safe-animation])::-ms-backdrop {
+    /* Disable animations and transitions for users who prefer reduced motion. */
+    background-attachment: unset !important;
+    scroll-behavior: unset !important;
+    transition-delay: unset !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-delay: unset !important;
+    animation-iteration-count: unset !important;
+    view-transition-name: none !important;
+  }
+  :not([data-safe-animation]), :not([data-safe-animation])::before, :not([data-safe-animation])::after, :not([data-safe-animation])::backdrop {
+    /* Disable animations and transitions for users who prefer reduced motion. */
+    background-attachment: unset !important;
+    scroll-behavior: unset !important;
+    -webkit-transition-delay: unset !important;
+            transition-delay: unset !important;
+    -webkit-transition-duration: 1ms !important;
+            transition-duration: 1ms !important;
+    -webkit-animation-duration: 1ms !important;
+            animation-duration: 1ms !important;
+    -webkit-animation-delay: unset !important;
+            animation-delay: unset !important;
+    -webkit-animation-iteration-count: unset !important;
+            animation-iteration-count: unset !important;
+    view-transition-name: none !important;
+  }
+}
+
+/* ======================================================
+// MARK: ## Utility Classes
+// ------------------------------------------------------ */
+/* Create a pseudo-element to adjust the vertical space above and below an element. */
+.leading-trim::before, .leading-trim::after {
+  content: "";
+  display: block flow;
+  inline-size: 0;
+  block-size: 1px;
+}
+.leading-trim::before {
+  -webkit-margin-after: var(--leading-trim);
+          margin-block-end: var(--leading-trim);
+}
+.leading-trim::after {
+  -webkit-margin-before: var(--leading-trim);
+          margin-block-start: var(--leading-trim);
+}
+
+/* Hide content visually but keep it accessible to screen readers. */
+.visually-hidden {
+  position: fixed !important;
+  inset: 0 !important;
+  contain: strict !important;
+  visibility: initial !important;
+  inline-size: 4px !important;
+  block-size: 4px !important;
+  margin: unset !important;
+  padding: unset !important;
+  border: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html {
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /* scroll-behavior: smooth; */
+  scroll-padding-top: var(--hdr_height);
+}
+html:has(.is_gnavopen) {
+  overflow: hidden;
+}
+
+body {
+  font-family: "Zen Maru Gothic", "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: #171C61;
+  padding-top: var(--hdr_height);
+}
+a,
+button {
+  text-decoration: none;
+  color: #fff;
+  outline: none;
+}
+@media (any-hover: hover) {
+  a,
+  button {
+    -webkit-transition: 0.3s ease;
+    transition: 0.3s ease;
+  }
+  a:hover,
+  button:hover {
+    opacity: 0.7;
+  }
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 100%;
+  width: 100%;
+}
+table th,
+table td {
+  vertical-align: top;
+}
+
+ul,
+ol {
+  list-style-position: inside;
+  list-style: none;
+}
+
+strong {
+  font-weight: 500;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-weight: 400;
+}
+
+.swiper-pagination {
+  position: static;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+}
+@media screen and (max-width: 768px) {
+  .swiper-pagination {
+    margin-top: 10px;
+  }
+}
+
+.swiper-pagination-bullet {
+  background-color: #fff;
+}
+
+.c_inner {
+  max-width: 750px;
+  width: calc(100% - 60px);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media screen and (max-width: 768px) {
+  .c_inner {
+    max-width: 600px;
+  }
+}
+@media screen and (max-width: 768px) and (max-width: 500px) {
+  .c_inner {
+    max-width: 388px;
+    width: calc(100% - 40px);
+  }
+}
+.c_inner._1000 {
+  max-width: 1000px;
+}
+.c_inner._full {
+  max-width: 100%;
+}
+
+@media screen and (min-width: 1025px) {
+  .c_tab {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .c_tab_none {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 769px) {
+  .c_sp {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .c_pc {
+    display: none !important;
+  }
+}
+.c_pankuzu {
+  padding: 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: auto;
+}
+.c_pankuzu > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  color: var(--gray2);
+}
+.c_pankuzu > span + span:before {
+  margin: 0 5px;
+  font-size: 12px;
+  content: ">";
+  -webkit-transform: translateY(-1px);
+          transform: translateY(-1px);
+}
+.c_pankuzu > span > a,
+.c_pankuzu > span > span {
+  font-size: 12px;
+}
 :root {
   --hdr_height: 80px;
-
-  @media screen and (max-width: 768px) {
-    --hdr_height: 60px;
-
-  }
-
   --blue1:#171C61;
   --blue2:#111549;
   --water1:#21678C;
   --water2:#f7fbfd;
   --gray1:rgb(255, 255, 255, .9);
-  --gray2:rgb(255, 255, 255, .8);
-  --gray3:rgb(255, 255, 255, .6);
+  --gray2:rgb(255, 255, 255, .6);
 }
+@media screen and (max-width: 768px) {
+  :root {
+    --hdr_height: 60px;
+  }
+}
+
+.editor-styles-wrapper {
+  background: var(--blue2);
+  color: white;
+}
+
+.wp-block-post-content {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.wp-block-post-content .wp-block-group {
+  padding: 1em;
+  border: 1px solid #000;
+}
+
+.c_wysywig,
+.editor-styles-wrapper .wp-block-post-content {
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0.05em;
+  word-break: break-all;
+  color: var(--gray1);
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig,
+  .editor-styles-wrapper .wp-block-post-content {
+    font-size: 14px;
+  }
+}
+.c_wysywig *:first-child,
+.editor-styles-wrapper .wp-block-post-content *:first-child {
+  margin-top: 0 !important;
+}
+.c_wysywig *:last-child,
+.editor-styles-wrapper .wp-block-post-content *:last-child {
+  margin-bottom: 0 !important;
+}
+.c_wysywig > *,
+.c_wysywig > *,
+.editor-styles-wrapper .wp-block-post-content > *,
+.editor-styles-wrapper .wp-block-post-content > * {
+  margin-bottom: 20px;
+  clear: both;
+}
+.c_wysywig h1.wp-block-heading,
+.c_wysywig h2.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h1.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h2.wp-block-heading {
+  margin-top: 50px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+  color: white;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig h1.wp-block-heading,
+  .c_wysywig h2.wp-block-heading,
+  .editor-styles-wrapper .wp-block-post-content h1.wp-block-heading,
+  .editor-styles-wrapper .wp-block-post-content h2.wp-block-heading {
+    font-size: 22px;
+  }
+}
+.c_wysywig h1.wp-block-heading:before,
+.c_wysywig h2.wp-block-heading:before,
+.editor-styles-wrapper .wp-block-post-content h1.wp-block-heading:before,
+.editor-styles-wrapper .wp-block-post-content h2.wp-block-heading:before {
+  content: "";
+  width: 20px;
+  height: 2px;
+  background-color: hsla(0, 0%, 100%, 0.8);
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+.c_wysywig h3.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h3.wp-block-heading {
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-top: 30px;
+  border-bottom: 1px solid var(--gray3);
+  padding-bottom: 5px;
+  color: white;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig h3.wp-block-heading,
+  .editor-styles-wrapper .wp-block-post-content h3.wp-block-heading {
+    font-size: 16px;
+  }
+}
+.c_wysywig h4.wp-block-heading,
+.c_wysywig h5.wp-block-heading,
+.c_wysywig h6.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h4.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h5.wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content h6.wp-block-heading {
+  font-weight: 500;
+  color: white;
+}
+.c_wysywig a,
+.editor-styles-wrapper .wp-block-post-content a {
+  color: var(--water2);
+  text-decoration: underline;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 5px;
+}
+.c_wysywig a:after,
+.editor-styles-wrapper .wp-block-post-content a:after {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 1em;
+  height: 1.2em;
+  margin-left: 5px;
+  background: url(/cms/wp-content/themes/sbw4/assets/images/link-simple-regular_w.svg) 50% no-repeat;
+  background-size: contain;
+  content: "";
+  display: block;
+}
+.c_wysywig a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content a[target=_blank]:after {
+  width: 0.7em;
+  background: url(/cms/wp-content/themes/sbw4/assets/images/arrow-up-right-from-square-sharp-regular_w.svg) 50% no-repeat;
+}
+.c_wysywig a[download]:after,
+.editor-styles-wrapper .wp-block-post-content a[download]:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/download-regular.svg) 50% no-repeat;
+}
+.c_wysywig ol,
+.editor-styles-wrapper .wp-block-post-content ol {
+  padding-left: 1.5em;
+  list-style: decimal;
+  list-style-position: outside;
+}
+.c_wysywig ol li,
+.editor-styles-wrapper .wp-block-post-content ol li {
+  margin: 0.25em 0;
+}
+.c_wysywig ul,
+.editor-styles-wrapper .wp-block-post-content ul {
+  padding-left: 1.5em;
+  list-style: disc;
+  list-style-position: outside;
+}
+.c_wysywig ul li,
+.editor-styles-wrapper .wp-block-post-content ul li {
+  margin: 0.25em 0;
+}
+.c_wysywig .is-style-sme-alert,
+.c_wysywig .is-style-sme-alert-success,
+.c_wysywig .is-style-sme-alert-warning,
+.c_wysywig .is-style-sme-alert-remark,
+.c_wysywig .is-style-sme-post-it,
+.c_wysywig .is-style-sme-post-it-narrow,
+.c_wysywig .is-style-sme-speech,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-success,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-warning,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-remark,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it-narrow,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-speech {
+  color: black;
+}
+.c_wysywig .is-style-sme-alert a,
+.c_wysywig .is-style-sme-alert-success a,
+.c_wysywig .is-style-sme-alert-warning a,
+.c_wysywig .is-style-sme-alert-remark a,
+.c_wysywig .is-style-sme-post-it a,
+.c_wysywig .is-style-sme-post-it-narrow a,
+.c_wysywig .is-style-sme-speech a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-success a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-warning a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-remark a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it-narrow a,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-speech a {
+  color: black;
+}
+.c_wysywig .is-style-sme-alert a:after,
+.c_wysywig .is-style-sme-alert-success a:after,
+.c_wysywig .is-style-sme-alert-warning a:after,
+.c_wysywig .is-style-sme-alert-remark a:after,
+.c_wysywig .is-style-sme-post-it a:after,
+.c_wysywig .is-style-sme-post-it-narrow a:after,
+.c_wysywig .is-style-sme-speech a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-success a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-warning a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-remark a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it-narrow a:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-speech a:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/link-simple-regular.svg) 50% no-repeat;
+}
+.c_wysywig .is-style-sme-alert a[target=_blank]:after,
+.c_wysywig .is-style-sme-alert-success a[target=_blank]:after,
+.c_wysywig .is-style-sme-alert-warning a[target=_blank]:after,
+.c_wysywig .is-style-sme-alert-remark a[target=_blank]:after,
+.c_wysywig .is-style-sme-post-it a[target=_blank]:after,
+.c_wysywig .is-style-sme-post-it-narrow a[target=_blank]:after,
+.c_wysywig .is-style-sme-speech a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-success a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-warning a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-alert-remark a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-post-it-narrow a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-speech a[target=_blank]:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/arrow-up-right-from-square-sharp-regular.svg) 50% no-repeat;
+}
+.c_wysywig .is-style-sme-list-arrow,
+.c_wysywig .is-style-sme-list-arrow ul,
+.c_wysywig .is-style-sme-list-arrow ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-list-arrow li:before,
+.c_wysywig .is-style-sme-list-arrow ul li:before,
+.c_wysywig .is-style-sme-list-arrow ol li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ul li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ol li:before {
+  -webkit-transform: translateY(3px) rotate(-45deg);
+          transform: translateY(3px) rotate(-45deg);
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is-style-sme-list-arrow li:before,
+  .c_wysywig .is-style-sme-list-arrow ul li:before,
+  .c_wysywig .is-style-sme-list-arrow ol li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ul li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ol li:before {
+    -webkit-transform: translateY(1px) rotate(-45deg);
+            transform: translateY(1px) rotate(-45deg);
+  }
+}
+.c_wysywig .is-style-sme-list-arrow li:after,
+.c_wysywig .is-style-sme-list-arrow ul li:after,
+.c_wysywig .is-style-sme-list-arrow ol li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ul li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ol li:after {
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is-style-sme-list-arrow li:after,
+  .c_wysywig .is-style-sme-list-arrow ul li:after,
+  .c_wysywig .is-style-sme-list-arrow ol li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ul li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-arrow ol li:after {
+    -webkit-transform: translateY(1px);
+            transform: translateY(1px);
+  }
+}
+.c_wysywig .is-style-sme-list-check,
+.c_wysywig .is-style-sme-list-check ul,
+.c_wysywig .is-style-sme-list-check ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-list-check li:before,
+.c_wysywig .is-style-sme-list-check ul li:before,
+.c_wysywig .is-style-sme-list-check ol li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check ul li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-check ol li:before {
+  top: 9px;
+}
+.c_wysywig .is-style-sme-list-remark,
+.c_wysywig .is-style-sme-list-remark ul,
+.c_wysywig .is-style-sme-list-remark ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-remark,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-remark ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-remark ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-list-times,
+.c_wysywig .is-style-sme-list-times ul,
+.c_wysywig .is-style-sme-list-times ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-list-times li:before, .c_wysywig .is-style-sme-list-times li:after,
+.c_wysywig .is-style-sme-list-times ul li:before,
+.c_wysywig .is-style-sme-list-times ul li:after,
+.c_wysywig .is-style-sme-list-times ol li:before,
+.c_wysywig .is-style-sme-list-times ol li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ul li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ul li:after,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ol li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ol li:after {
+  top: 12px;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is-style-sme-list-times li:before, .c_wysywig .is-style-sme-list-times li:after,
+  .c_wysywig .is-style-sme-list-times ul li:before,
+  .c_wysywig .is-style-sme-list-times ul li:after,
+  .c_wysywig .is-style-sme-list-times ol li:before,
+  .c_wysywig .is-style-sme-list-times ol li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ul li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ul li:after,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ol li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-list-times ol li:after {
+    top: 11px;
+  }
+}
+.c_wysywig .is-style-sme-ordered-list-circle,
+.c_wysywig .is-style-sme-ordered-list-circle ul,
+.c_wysywig .is-style-sme-ordered-list-circle ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-ordered-list-circle li:before,
+.c_wysywig .is-style-sme-ordered-list-circle ul li:before,
+.c_wysywig .is-style-sme-ordered-list-circle ol li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ul li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ol li:before {
+  top: 2px;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is-style-sme-ordered-list-circle li:before,
+  .c_wysywig .is-style-sme-ordered-list-circle ul li:before,
+  .c_wysywig .is-style-sme-ordered-list-circle ol li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ul li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-circle ol li:before {
+    top: 3px;
+  }
+}
+.c_wysywig .is-style-sme-ordered-list-square,
+.c_wysywig .is-style-sme-ordered-list-square ul,
+.c_wysywig .is-style-sme-ordered-list-square ol,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ul,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ol {
+  list-style: none;
+}
+.c_wysywig .is-style-sme-ordered-list-square li:before,
+.c_wysywig .is-style-sme-ordered-list-square ul li:before,
+.c_wysywig .is-style-sme-ordered-list-square ol li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ul li:before,
+.editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ol li:before {
+  top: 2px;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is-style-sme-ordered-list-square li:before,
+  .c_wysywig .is-style-sme-ordered-list-square ul li:before,
+  .c_wysywig .is-style-sme-ordered-list-square ol li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ul li:before,
+  .editor-styles-wrapper .wp-block-post-content .is-style-sme-ordered-list-square ol li:before {
+    top: 3px;
+  }
+}
+.c_wysywig .wp-block-image,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image {
+  text-align: center;
+  margin: 30px 0;
+}
+.c_wysywig .wp-block-image:after,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: "";
+}
+.c_wysywig .wp-block-image > a,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image > a {
+  display: block;
+  position: relative;
+}
+.c_wysywig .wp-block-image > a:after,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image > a:after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  background: url(/cms/wp-content/themes/sbw_new3/assets/images/magnifying-glass-plus-light.svg) 50% no-repeat rgba(0, 0, 0, 0.7);
+  background-size: 15px;
+  content: "";
+}
+.c_wysywig .wp-block-image .alignleft,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image .alignleft {
+  margin: 0.5em 1em 0.5em 0;
+  float: left;
+}
+.c_wysywig .wp-block-image .aligncenter,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image .aligncenter {
+  margin-right: auto;
+  margin-left: auto;
+}
+.c_wysywig .wp-block-image .alignright,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image .alignright {
+  margin: 0.5em 0 0.5em 1em;
+  float: right;
+}
+.c_wysywig .wp-block-image.is-style-mid img,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image.is-style-mid img {
+  max-width: 80%;
+}
+.c_wysywig .wp-block-image.is-style-small img,
+.editor-styles-wrapper .wp-block-post-content .wp-block-image.is-style-small img {
+  max-width: 50%;
+}
+.c_wysywig .wp-element-caption,
+.editor-styles-wrapper .wp-block-post-content .wp-element-caption {
+  display: block !important;
+  margin-top: 0.75em;
+  margin-bottom: 0;
+  color: inherit;
+  font-size: 0.8em;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--gray1);
+}
+.c_wysywig .wp-block-embed__wrapper .twitter-tweet,
+.editor-styles-wrapper .wp-block-post-content .wp-block-embed__wrapper .twitter-tweet {
+  margin-right: auto;
+  margin-left: auto;
+}
+.c_wysywig .wp-block-embed-youtube iframe,
+.editor-styles-wrapper .wp-block-post-content .wp-block-embed-youtube iframe {
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.c_wysywig .wp-block-table tr:nth-child(odd) th,
+.c_wysywig .wp-block-table tr:nth-child(odd) td,
+.editor-styles-wrapper .wp-block-post-content .wp-block-table tr:nth-child(odd) th,
+.editor-styles-wrapper .wp-block-post-content .wp-block-table tr:nth-child(odd) td {
+  background: var(--blue1);
+}
+.c_wysywig .wp-block-table tr th,
+.editor-styles-wrapper .wp-block-post-content .wp-block-table tr th {
+  font-weight: 500;
+}
+.c_wysywig .wp-block-table tr th,
+.c_wysywig .wp-block-table tr td,
+.editor-styles-wrapper .wp-block-post-content .wp-block-table tr th,
+.editor-styles-wrapper .wp-block-post-content .wp-block-table tr td {
+  padding: 10px;
+  border: 1px solid var(--gray3);
+}
+@media screen and (max-width: 599px) {
+  .c_wysywig .wp-block-table tr th,
+  .c_wysywig .wp-block-table tr td,
+  .editor-styles-wrapper .wp-block-post-content .wp-block-table tr th,
+  .editor-styles-wrapper .wp-block-post-content .wp-block-table tr td {
+    padding: 5px;
+  }
+}
+.c_wysywig .wp-block-flexible-table-block-table table,
+.editor-styles-wrapper .wp-block-post-content .wp-block-flexible-table-block-table table {
+  color: black;
+}
+.c_wysywig .wp-block-flexible-table-block-table table a,
+.editor-styles-wrapper .wp-block-post-content .wp-block-flexible-table-block-table table a {
+  color: black;
+}
+.c_wysywig .wp-block-flexible-table-block-table table a:after,
+.editor-styles-wrapper .wp-block-post-content .wp-block-flexible-table-block-table table a:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/link-simple-regular.svg) 50% no-repeat;
+}
+.c_wysywig .wp-block-flexible-table-block-table table a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .wp-block-flexible-table-block-table table a[target=_blank]:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/arrow-up-right-from-square-sharp-regular.svg) 50% no-repeat;
+}
+.c_wysywig .wp-block-flexible-table-block-table table th,
+.editor-styles-wrapper .wp-block-post-content .wp-block-flexible-table-block-table table th {
+  font-weight: 500;
+}
+.c_wysywig .wp-block-pullquote,
+.c_wysywig .wp-block-quote,
+.editor-styles-wrapper .wp-block-post-content .wp-block-pullquote,
+.editor-styles-wrapper .wp-block-post-content .wp-block-quote {
+  font-size: 1em;
+}
+.c_wysywig blockquote,
+.editor-styles-wrapper .wp-block-post-content blockquote {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  padding: 40px 20px 20px;
+  background: var(--blue1);
+  font-style: italic;
+  text-align: left;
+}
+.c_wysywig blockquote:before,
+.editor-styles-wrapper .wp-block-post-content blockquote:before {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background: url(/cms/wp-content/themes/sbw4/assets/images/quote-left-solid.svg) 50% no-repeat;
+  background-size: contain;
+  content: "";
+  opacity: 0.6;
+}
+.c_wysywig blockquote cite,
+.editor-styles-wrapper .wp-block-post-content blockquote cite {
+  display: block;
+  font-size: 80%;
+  text-align: right;
+  opacity: 0.6;
+}
+.c_wysywig .wp-block-file__button,
+.editor-styles-wrapper .wp-block-post-content .wp-block-file__button {
+  color: #fff;
+  text-decoration: none;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig :where(.wp-block-columns.is-layout-flex),
+  .editor-styles-wrapper .wp-block-post-content :where(.wp-block-columns.is-layout-flex) {
+    gap: 1em;
+  }
+}
+.c_wysywig .is_fukidashi,
+.c_wysywig .is_fukidashi_reverse,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse {
+  margin-bottom: 40px;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  max-width: 700px;
+  gap: 20px;
+  color: black;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container a,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container a,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container a,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container a {
+  color: black;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container a:after,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container a:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container a:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container a:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/link-simple-regular.svg) 50% no-repeat;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container a[target=_blank]:after,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container a[target=_blank]:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container a[target=_blank]:after {
+  background: url(/cms/wp-content/themes/sbw4/assets/images/arrow-up-right-from-square-sharp-regular.svg) 50% no-repeat;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container .wp-block-image,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container .wp-block-image,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  margin-right: 0 !important;
+  margin-bottom: 0;
+  margin-left: 0 !important;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_fukidashi .wp-block-group__inner-container .wp-block-image,
+  .c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image,
+  .editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container .wp-block-image,
+  .editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image {
+    width: 60px;
+    height: 60px;
+  }
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container .wp-block-image img,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image img,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container .wp-block-image img,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image img {
+  -o-object-fit: cover;
+  -o-object-position: top center;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: top center;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container .wp-block-image .wp-element-caption,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image .wp-element-caption,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container .wp-block-image .wp-element-caption,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container .wp-block-image .wp-element-caption {
+  margin-top: 5px;
+  font-size: 10px;
+  text-align: center;
+  color: var(--gray2);
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container p,
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container p,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container p,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container p {
+  position: relative;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  padding: 1em;
+  border: 1px solid #fbe593;
+  border-radius: 8px;
+  background: #f9f7d2;
+}
+.c_wysywig .is_fukidashi .wp-block-group__inner-container p:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi .wp-block-group__inner-container p:after {
+  position: absolute;
+  top: 20px;
+  left: -10px;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent #f9f7d2 transparent transparent;
+  content: "";
+}
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container p,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container p {
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+}
+.c_wysywig .is_fukidashi_reverse .wp-block-group__inner-container p:after,
+.editor-styles-wrapper .wp-block-post-content .is_fukidashi_reverse .wp-block-group__inner-container p:after {
+  position: absolute;
+  top: 20px;
+  right: -10px;
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent #ccc;
+  content: "";
+}
+.c_wysywig .is_image_reverse .wp-block-group__inner-container .wp-block-image img,
+.editor-styles-wrapper .wp-block-post-content .is_image_reverse .wp-block-group__inner-container .wp-block-image img {
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+}
+.c_wysywig .wp-block-group .wp-block-heading,
+.c_wysywig .wp-block-group ol,
+.c_wysywig .wp-block-group p,
+.c_wysywig .wp-block-group ul,
+.editor-styles-wrapper .wp-block-post-content .wp-block-group .wp-block-heading,
+.editor-styles-wrapper .wp-block-post-content .wp-block-group ol,
+.editor-styles-wrapper .wp-block-post-content .wp-block-group p,
+.editor-styles-wrapper .wp-block-post-content .wp-block-group ul {
+  margin-bottom: 1em;
+}
+.c_wysywig .wp-block-button__link,
+.editor-styles-wrapper .wp-block-post-content .wp-block-button__link {
+  text-decoration: none;
+}
+.c_wysywig .wp-block-button__link:after,
+.editor-styles-wrapper .wp-block-post-content .wp-block-button__link:after {
+  display: none;
+}
+.c_wysywig .is_stepA,
+.editor-styles-wrapper .wp-block-post-content .is_stepA {
+  margin-bottom: 0;
+  counter-reset: number 0;
+}
+.c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group,
+.editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 0 0 3em;
+}
+.c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group:before,
+.editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group:before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 1;
+  position: sticky;
+  top: 50px;
+  left: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  border-radius: 50%;
+  background: var(--water1);
+  content: counter(number);
+  color: #fff;
+  font-size: 24px;
+  counter-increment: number 1;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group:before,
+  .editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group:before {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin-right: 10px;
+  }
+}
+.is_stepA > .wp-block-group__inner-container .wp-block-group:not(.c_wysywig:last-child,
+.editor-styles-wrapper .wp-block-post-content:last-child):after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 25px;
+  width: 0;
+  height: 100%;
+  border-left: 1px dashed var(--gray3);
+  content: "";
+}
+@media screen and (max-width: 768px) {
+  .is_stepA > .wp-block-group__inner-container .wp-block-group:not(.c_wysywig:last-child,
+  .editor-styles-wrapper .wp-block-post-content:last-child):after {
+    left: 20px;
+  }
+}
+.c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container,
+.editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container {
+  width: 100%;
+}
+.c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child,
+.editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child {
+  margin-top: 5px !important;
+  margin-bottom: 1em;
+  font-weight: 500;
+  font-size: 150%;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child,
+  .editor-styles-wrapper .wp-block-post-content .is_stepA > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child {
+    font-size: 120%;
+  }
+}
+.c_wysywig .is_stepB,
+.editor-styles-wrapper .wp-block-post-content .is_stepB {
+  border-top: 1px dashed var(--gray3);
+  counter-reset: number 0;
+}
+.c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group,
+.editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+  border-bottom: 1px dashed var(--gray3);
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group,
+  .editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group {
+    padding: 1em;
+  }
+}
+.c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group:before,
+.editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group:before {
+  content: "Step " counter(number);
+  font-size: 20px;
+  counter-increment: number 1;
+  color: white;
+  background: var(--water1);
+  padding: 0px 10px;
+  margin-bottom: 15px;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group:before,
+  .editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group:before {
+    font-size: 18px;
+  }
+}
+.c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group + .wp-block-group:after,
+.editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group + .wp-block-group:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-top-color: var(--gray3);
+  content: "";
+}
+.c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container,
+.editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container {
+  width: 100%;
+}
+.c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child,
+.editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child {
+  margin-bottom: 1em;
+  font-weight: 500;
+  font-size: 120%;
+  line-height: 1.6;
+}
+@media screen and (max-width: 768px) {
+  .c_wysywig .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child,
+  .editor-styles-wrapper .wp-block-post-content .is_stepB > .wp-block-group__inner-container .wp-block-group__inner-container p:first-child {
+    font-size: 120%;
+    margin-top: 5px !important;
+  }
+}
+.c_wysywig .post-password-form p,
+.editor-styles-wrapper .wp-block-post-content .post-password-form p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 1em;
+  gap: 10px;
+}
+.c_wysywig .post-password-form input[type=password],
+.editor-styles-wrapper .wp-block-post-content .post-password-form input[type=password] {
+  padding: 5px;
+  border-radius: 8px;
+  color: black;
+  background-color: #fff;
+  font-size: 20px;
+}
+.c_wysywig .post-password-form input[type=submit],
+.editor-styles-wrapper .wp-block-post-content .post-password-form input[type=submit] {
+  font-weight: 500;
+  text-decoration: underline;
+}
+.c_wysywig .is_scroll,
+.editor-styles-wrapper .wp-block-post-content .is_scroll {
+  max-height: 60vh;
+  padding: 10px;
+  overflow: auto;
+  border: 4px double var(--gray3);
+}
+
+#ez-toc-container {
+  background: var(--blue1);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 60px;
+}
+@media screen and (max-width: 768px) {
+  #ez-toc-container {
+    margin-top: 30px;
+  }
+}
+#ez-toc-container .ez-toc-title {
+  font-weight: 500;
+  padding-bottom: 1em;
+  font-size: 16px;
+}
+#ez-toc-container nav ul {
+  counter-reset: item;
+  list-style: none;
+  padding-left: 0;
+}
+#ez-toc-container nav ul li {
+  margin: 0;
+}
+#ez-toc-container nav ul > li + li {
+  border-top: 1px solid var(--water1);
+  margin-top: 10px;
+  padding-top: 12px;
+}
+#ez-toc-container nav ul li {
+  padding-left: 1.3em;
+  text-indent: -1.3em;
+}
+#ez-toc-container nav ul li:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item;
+}
+#ez-toc-container nav ul li a {
+  display: inline;
+  text-decoration: none;
+}
+#ez-toc-container nav ul li a:after {
+  display: none;
+}
+#ez-toc-container nav ul li ul {
+  margin-top: 10px;
+}
+#ez-toc-container nav ul li ul li {
+  padding-left: 2.3em;
+  text-indent: -2.3em;
+}
+#ez-toc-container nav ul li ul li + li {
+  border-top: 0;
+  padding-top: 0;
+  border-top-width: 0;
+}
+#ez-toc-container nav ul li ul li a {
+  color: var(--gray1);
+}
+
+.ez-toc-section {
+  position: absolute;
+}
+
+.c_pager {
+  margin-top: 50px;
+}
+@media screen and (max-width: 768px) {
+  .c_pager {
+    margin-top: 30px;
+  }
+}
+.c_pager .wp-pagenavi {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 16px;
+  gap: 10px;
+}
+.c_pager .wp-pagenavi a,
+.c_pager .wp-pagenavi span {
+  /* border: 1px solid rgba(255, 255, 255, 0.6); */
+  /* border-radius: 4px; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+@media (any-hover: hover) {
+  .c_pager .wp-pagenavi a:hover {
+    opacity: 1;
+    color: white;
+  }
+}
+.c_pager .wp-pagenavi .pages {
+  /* border: 1px solid rgba(255, 255, 255, 0.6); */
+}
+@media screen and (max-width: 768px) {
+  .c_pager .wp-pagenavi .pages {
+    display: none;
+  }
+}
+.c_pager .wp-pagenavi .current {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+@media screen and (max-width: 768px) {
+  .c_pager .wp-pagenavi .first,
+  .c_pager .wp-pagenavi .last {
+    display: none;
+  }
+}
+
+:root {
+  --hdr_height: 80px;
+}
+@media screen and (max-width: 768px) {
+  :root {
+    --hdr_height: 60px;
+  }
+}/*# sourceMappingURL=style.css.map */
