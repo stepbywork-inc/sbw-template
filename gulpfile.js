@@ -1,5 +1,5 @@
 //読み込むパスと出力するパスを指定
-const srcRootPath = "dist/lp/20241121/";
+const srcRootPath = "dist/";
 const srcPath = {
   images: {
     src: srcRootPath + "assets/_images/",
