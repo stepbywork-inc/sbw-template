@@ -21,6 +21,9 @@
   <script src="<?php echo $PATH; ?>assets/plugins/swiper-bundle.min.js"></script>
   <script src="<?php echo $PATH; ?>assets/plugins/aos.js"></script>
   <script src="<?php echo $PATH; ?>assets/js/main.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo $PATH; ?>assets/plugins/swiper-bundle.min.css" />
   <link rel="stylesheet" href="<?php echo $PATH; ?>assets/plugins/aos.css" />
   <link rel="stylesheet" href="<?php echo $PATH; ?>assets/css/style.css">

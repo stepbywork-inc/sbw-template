@@ -1,30 +1,32 @@
 .c_pankuzu {
+  position: relative;
+  z-index: 1;
   padding: 10px 0;
+  @media screen and (max-width: 768px) {
+  }
   display: flex;
   align-items: center;
   overflow: auto;
   @media screen and (max-width: 768px) {
   }
-  >span {
+  > span {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    color: var(--gray2);
-    +span {
+    font-weight: bold;
+    + span {
       &:before {
         margin: 0 5px;
-        font-size: 12px;
-        content: ">";
-        transform: translateY(-1px);
+        content: "/";
+        color: white;
         @media screen and (max-width: 768px) {
         }
       }
     }
 
-    >a,
-    >span {
-      font-size: 12px;
-
+    > a,
+    > span {
+      color: white;
       @media screen and (max-width: 768px) {
       }
     }
