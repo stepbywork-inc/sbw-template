@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     duration: 1000,
     once: true,
   });
+  $('.js-hmb').click(function () {
+    $('body').toggleClass('is-gnavopen')
+    return false;
+  })
 })
 window.addEventListener('load', function () {
   AOS.refresh();

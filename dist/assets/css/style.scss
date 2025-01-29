@@ -1,18 +1,18 @@
 @use "foundation/reset";
 
-@use "layout/base";
-@use "layout/header";
-@use "layout/footer";
-@use "layout/main";
+@use "layout/l_base";
+@use "layout/l_header";
+@use "layout/l_footer";
+@use "layout/l_main";
 
-@use "component/util";
-@use "component/btn";
-@use "component/title";
-@use "component/pankuzu";
-@use "component/wysywig";
-@use "component/card";
-@use "component/pager";
-@use "component/mv";
+@use "component/c_util";
+@use "component/c_btn";
+@use "component/c_title";
+@use "component/c_pankuzu";
+@use "component/c_wysywig";
+@use "component/c_card";
+@use "component/c_pager";
+@use "component/c_mv";
 
 @use "project/top";
 
